@@ -1,0 +1,39 @@
+.form {
+
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;     
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    background-color: white;
+    max-width: 300px;
+    width: 100%;
+    padding: 30px;
+}
+
+.heading {
+    margin-bottom: 40px;
+}
+
+input {
+
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 80%;
+    border: none;
+    background: lightgray;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    max-width: 80%;
+    padding: 15px 50px;
+    border: none;
+    background: #CC4BC6;
+    color: white;
+    font-weight: 300;
+
+}
