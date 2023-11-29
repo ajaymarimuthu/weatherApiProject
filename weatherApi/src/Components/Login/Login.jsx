@@ -1,11 +1,12 @@
 import Form from "../Form/Form"
-import "./Login.css"
+import "./Login.css" 
 const Login = () => {
+ 
   return (
     <div className="login">
 
 
-       <Form/>
+       <Form />
         
  
     </div>
