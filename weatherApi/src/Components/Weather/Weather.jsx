@@ -9,7 +9,7 @@ const Weather = () => {
   const [data, setData] = useState([])
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [productsPerPage, setproductPerPage] = useState(5)
+  const [productsPerPage] = useState(5)
 
   const lastProductIndex = currentPage * productsPerPage;
   const firstProductIndex = lastProductIndex - productsPerPage;
@@ -22,10 +22,8 @@ const Weather = () => {
     const data = await res.json();
 
     setData(data);
-
-    // console.log(data);
   }
-  // console.log(data);
+
   useEffect(() => {
 
 

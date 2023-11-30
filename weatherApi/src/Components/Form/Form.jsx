@@ -1,8 +1,8 @@
 import { useRef, useState } from "react"
 import "./Form.css"
-import { validateData } from "../../utils/validateData"
+import { validateData, validateLoginData } from "../../utils/validateData"
 import { useDispatch, useSelector } from "react-redux"
-import { addUser, isUserMatched, updateUser } from "../../utils/userSlice"
+import { addUser, updateUser } from "../../utils/userSlice"
 
 import bcrypt from "bcryptjs"
 const Form = () => {
@@ -13,14 +13,10 @@ const Form = () => {
     const dispatch = useDispatch();
     const users = useSelector(store => store.user.users);
 
-    // console.log(users);
-    // console.log(users.length);
 
     const [errorMessage, setErrorMessage] = useState("")
     const [isSignInForm, setIsSignInForm] = useState(true)
-
-    // console.log("isSignInForm", isSignInForm);
-
+    const [loginError, setLoginError] = useState("")
 
 
     const handleSignInButton = async () => {
@@ -28,24 +24,25 @@ const Form = () => {
         const uname = userName.current.value;
         const pwd = password.current.value
 
-        const res = validateData(uname, pwd);
+        const res = validateData(uname, pwd, users);
 
 
-        if (res) return;
         setErrorMessage(res);
+        if (res) return;
+
 
         const bcryptedPwd = await bcrypt.hashSync(pwd, 10);
 
         const newUser = {
             name: uname.toLowerCase(),
             password: bcryptedPwd,
-            isMatched:false
+            isMatched: false
         }
-        // console.log("newUser", newUser);
+
 
 
         if (users?.find((user) => user.name === newUser.name)) {
-            // console.log("user already exist");
+
             setErrorMessage("user already exists.. LogiIn")
 
             return;
@@ -65,48 +62,46 @@ const Form = () => {
 
     const handleLogInButton = () => {
 
-        const uname = userName.current.value;
+
+        const uname = userName.current.value.toLowerCase();
         const pwd = password.current.value
 
-        const res = validateData(uname, pwd);
+        const res = validateLoginData(uname, pwd, users);
+
+        if (res) {
+
+            setLoginError(res);
+            return;
+        }
 
 
-        if (res) return;
-        setErrorMessage(res);
+        var encrypt;
 
 
         const encrypted = users.find(user => user.name === uname);
+        encrypt = encrypted?.password;
 
-        let encrypt=encrypted.password;
 
-        // console.log("encrypt",encrypt);
-        // console.log("pwd",pwd);
 
-         bcrypt.compare(pwd, encrypt, function(err,isMatch){
-            if(err){
+        bcrypt.compare(pwd, encrypt, function (err, isMatch) {
+            if (err) {
                 throw err;
             }
-            else if(!isMatch){
-                console.log("Password not match");
-            }else{
+            else if (!isMatch) {
+                if (!errorMessage) {
+                    setLoginError("Password do not match")
+                }
 
-            
-          
-
-                console.log("updateUser uname",uname);
+            } else {
                 dispatch(updateUser(uname));
- 
-                
-                console.log("Matchessss");
             }
-         })
+        })
 
     }
 
 
 
-    const handleSignInForm = () => {
-        console.log("here 1");
+    const handleSignInForm = () => { 
         userName.current.value = "";
         password.current.value = "";
         setErrorMessage("");
@@ -125,8 +120,10 @@ const Form = () => {
 
                 <input type="password" placeholder="password" ref={password} />
 
-                {isSignInForm && <button  className="button" type="submit" onClick={handleSignInButton}>  SignIn </button>}
-                {!isSignInForm && <button  className="button" type="submit" onClick={handleLogInButton} >  Login</button>}
+                {isSignInForm && <button className="button" type="submit" onClick={handleSignInButton}>  SignIn </button>}
+                {!isSignInForm && <button className="button" type="submit" onClick={handleLogInButton} >  Login</button>}
+
+                {loginError && <p className="error">{loginError}</p>}
 
                 <p className="error" onClick={handleSignInForm}> {errorMessage}</p>
 

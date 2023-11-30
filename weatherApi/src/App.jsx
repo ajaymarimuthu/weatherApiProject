@@ -8,7 +8,7 @@ function App() {
 
   const users=useSelector(store=>store?.user?.users);
 
-  // console.log(users);
+ 
 
   const user=users?.find(user=>{
     if(user?.isMatched === true){
@@ -19,8 +19,7 @@ function App() {
 
   return (
     < >
-
-    {/* <Login/> */}
+ 
       {user?.isMatched ? <Weather/> : <Login />}  
     </>
 
