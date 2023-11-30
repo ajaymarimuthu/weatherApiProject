@@ -2,7 +2,7 @@ import { useRef, useState } from "react"
 import "./Form.css"
 import { validateData } from "../../utils/validateData"
 import { useDispatch, useSelector } from "react-redux"
-import { addUser, isUserMatched } from "../../utils/userSlice"
+import { addUser, isUserMatched, updateUser } from "../../utils/userSlice"
 
 import bcrypt from "bcryptjs"
 const Form = () => {
@@ -13,13 +13,13 @@ const Form = () => {
     const dispatch = useDispatch();
     const users = useSelector(store => store.user.users);
 
-    console.log(users);
+    // console.log(users);
     // console.log(users.length);
 
     const [errorMessage, setErrorMessage] = useState("")
     const [isSignInForm, setIsSignInForm] = useState(true)
 
-    console.log("isSignInForm", isSignInForm);
+    // console.log("isSignInForm", isSignInForm);
 
 
 
@@ -38,13 +38,14 @@ const Form = () => {
 
         const newUser = {
             name: uname.toLowerCase(),
-            password: bcryptedPwd
+            password: bcryptedPwd,
+            isMatched:false
         }
-        console.log("newUser", newUser);
+        // console.log("newUser", newUser);
 
 
         if (users?.find((user) => user.name === newUser.name)) {
-            console.log("user already exist");
+            // console.log("user already exist");
             setErrorMessage("user already exists.. LogiIn")
 
             return;
@@ -89,7 +90,12 @@ const Form = () => {
                 console.log("Password not match");
             }else{
 
-                dispatch(isUserMatched(true))
+            
+          
+
+                console.log("updateUser uname",uname);
+                dispatch(updateUser(uname));
+ 
                 
                 console.log("Matchessss");
             }
@@ -119,8 +125,8 @@ const Form = () => {
 
                 <input type="password" placeholder="password" ref={password} />
 
-                {isSignInForm && <button type="submit" onClick={handleSignInButton}>  SignIn </button>}
-                {!isSignInForm && <button type="submit" onClick={handleLogInButton} >  Login</button>}
+                {isSignInForm && <button  className="button" type="submit" onClick={handleSignInButton}>  SignIn </button>}
+                {!isSignInForm && <button  className="button" type="submit" onClick={handleLogInButton} >  Login</button>}
 
                 <p className="error" onClick={handleSignInForm}> {errorMessage}</p>
 

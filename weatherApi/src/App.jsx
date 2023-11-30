@@ -6,12 +6,22 @@ import {  useSelector } from "react-redux";
 
 function App() {
 
-  const isMatched=useSelector(store=>store.user.isMatched)
+  const users=useSelector(store=>store?.user?.users);
+
+  // console.log(users);
+
+  const user=users?.find(user=>{
+    if(user?.isMatched === true){
+      return user;
+    }
+  })
  
 
   return (
     < >
-      {isMatched ? <Weather/> : <Login />}  
+
+    {/* <Login/> */}
+      {user?.isMatched ? <Weather/> : <Login />}  
     </>
 
 

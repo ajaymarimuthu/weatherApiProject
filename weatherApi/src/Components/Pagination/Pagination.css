@@ -1,0 +1,41 @@
+
+
+.btn{
+ 
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin-bottom: 5rem;
+}
+
+.pageBtn{
+ 
+    padding: 10px;
+    font-size: small;
+    font-weight: 500;
+    margin: 15px;
+ 
+    border-radius: 100%;
+
+    background-color: black;
+    color: white;
+
+    display: inline-block;
+    transition: transform 0.3s, color 0.3s, background-color 0.3s;
+}
+
+.active{
+    background-color: #f63854;
+  
+}
+
+/* .btn{
+    transition: transform 0.3s, color 0.3s, background-color 0.3s;
+    display: inline-block;
+}
+*/
+
+.pageBtn:hover{
+    transform: scale(1.2);
+} 
